@@ -1,0 +1,29 @@
+{
+  "name": "ext-check",
+  "version": "0.1.0",
+  "description": "Check and fix extensions before importing into Qlik Sense Server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanwalther/ext-check"
+  },
+  "author": "Stefan Walther",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stefanwalther/ext-check/issues"
+  },
+  "homepage": "https://github.com/stefanwalther/ext-check",
+  "dependencies": {
+    "adm-zip": "^0.4.7",
+    "colors": "^1.1.2",
+    "command-line-args": "^1.0.0",
+    "commander": "^2.8.1"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.3.2"
+  }
+}
