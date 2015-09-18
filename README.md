@@ -1,6 +1,6 @@
-# sense-extension-check
+# ext-check
 
-> Check visualization extensions to be compliant when uploading to Qlik Sense Server.
+> Check and fix extensions before importing into Qlik Sense Server.
 
 ![](http://serve.mod.bz/branch/)
 
@@ -8,37 +8,43 @@
 
 ## Prerequisites
 
-Node.js installed on your system.
+Node.js + NPM installed on your system.
 
 ## Install
 
-`npm install sense-extension-check -g`
+Install the tool globally.
+`npm install ext-check -g`
 
 ## Run
 
-Run sense-extension-check in the command line using one of the following options:
+Run `ext-check` in the command line using one of the following options:
 
 ### Just check
 
 Just check the visualization extension, the output in the command line will indicate if there is a problem which needs to be fixed.
 
-```sense-extension-check "myExtension.zip"
+```ext-check "myExtension.zip"
 ```
 ### Check and fix
 
 Checks the extension, fixes potential problems in the source zip-file (create a backup with %filename%.bak before) immediately.
 
-```sense-extension-check "myExtension.zip" --fix
+```ext-check "myExtension.zip" --fix
 ```
 ### Check and fix, no backup
 
-```sense-extension-check "myExtension.zip" --fix --backup=false
+```ext-check "myExtension.zip" --fix --backup=false
+```
+### Check using a password protected zip file
+
+```ext-check "myExtension.zip" --password "verysecurepwd"
 ```
 ## Options
 
 * **`--help`** (alias `-h`) - Show the help
 * **`--fix`** (alias `-f`) - Whether to fix the file or not (defaults to `false`)
 * **`--backup`** (alias `-b`) - Whether to create a backup or not (defaults to `true`)
+* **`--password`** (alias `-p`) - Password for the zip-file (if applicable)
 
 ## Author
 
