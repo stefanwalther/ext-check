@@ -14,8 +14,10 @@ Node.js + NPM installed on your system.
 
 Install the tool globally.
 
-```npm install ext-check -g
+```bash
+npm install ext-check -g  
 ```
+
 ## Run
 
 Run `ext-check` in the command line using one of the following options:
@@ -24,22 +26,30 @@ Run `ext-check` in the command line using one of the following options:
 
 Just check the visualization extension, the output in the command line will indicate if there is a problem which needs to be fixed.
 
+```bash
 ext-check "myExtension.zip"
+```
 
 ### Check and fix
 
 Checks the extension, fixes potential problems in the source zip-file (create a backup with %filename%.bak before) immediately.
 
-```ext-check "myExtension.zip" --fix
+```bash
+ext-check "myExtension.zip" --fix
 ```
+
 ### Check and fix, no backup
 
-```ext-check "myExtension.zip" --fix --backup=false
+```bash
+ext-check "myExtension.zip" --fix --backup=false
 ```
+
 ### Check using a password protected zip file
 
-```ext-check "myExtension.zip" --password "verysecurepwd"
+```bash
+ext-check "myExtension.zip" --password "verysecurepwd"
 ```
+
 ## Options
 
 * **`--help`** (alias `-h`) - Show the help
