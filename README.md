@@ -24,8 +24,8 @@ Run `ext-check` in the command line using one of the following options:
 
 Just check the visualization extension, the output in the command line will indicate if there is a problem which needs to be fixed.
 
-```ext-check "myExtension.zip"
-```
+ext-check "myExtension.zip"
+
 ### Check and fix
 
 Checks the extension, fixes potential problems in the source zip-file (create a backup with %filename%.bak before) immediately.
