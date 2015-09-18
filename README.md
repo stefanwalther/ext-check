@@ -14,7 +14,7 @@ Node.js + NPM installed on your system.
 
 Install the tool globally.
 
-```npm install ext-check -g```
+    npm install ext-check -g
 
 ## Run
 
