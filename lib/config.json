@@ -1,0 +1,20 @@
+{
+    "version": "2.1.1",
+    "accepted": [
+        "qext",
+        "json",
+        "js",
+        "html",
+        "htm",
+        "wbl",
+        "txt",
+        "csv",
+        "css",
+        "gif",
+        "png",
+        ""
+    ],
+    "rejected": [
+        "md"
+    ]
+}

@@ -10,6 +10,8 @@ web.*.config
 /**/.tmp/
 todos.md
 
+/test/fixtures/extensions/qWidget*.zip
+
 
 # =========================
 # Visual Studio
