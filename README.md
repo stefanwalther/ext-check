@@ -52,6 +52,12 @@ ext-check "myExtension.zip" --fix --backup=false
 ext-check "myExtension.zip" --password "verysecurepwd"
 ```
 
+### Get the MIME type for a file extension
+
+```bash
+ext-check ".json" --mime
+```
+
 ## Options
 
 * **`--help`** (alias `-h`) - Show the help
