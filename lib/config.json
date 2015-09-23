@@ -11,10 +11,21 @@
         "csv",
         "css",
         "gif",
-        "png",
-        ""
+        "png"
     ],
     "rejected": [
-        "md"
+        "md",
+        "markdown",
+        "eot"
+    ],
+    "safeToRemoveFolders": [
+        ".git",
+        ".idea",
+        ".build",
+        ".DS_store"
+    ],
+    "safeToRemoveFiles": [
+        ".md",
+        ".markdown"
     ]
 }

@@ -1,9 +1,10 @@
 'use strict';
 
 var path = require( 'path' );
-var mocha = require( 'mocha' );
 var expect = require( 'chai' ).expect;
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
+var rimraf = require('rimraf');
+
 
 describe( 'ext-check', function () {
 
@@ -43,6 +44,41 @@ describe( 'ext-check', function () {
                 done();
             } );
         } );
+    } );
+
+    describe( 'check', function () {
+
+        beforeEach( function () {
+
+
+
+        } );
+
+        it( 'should throw an exception for non .zip files', function ( done ) {
+            expect( true ).to.equal( false );
+            done();
+        } );
+
+        it( 'should throw an exception if the file doesn\'t exist', function ( done ) {
+            expect( true ).to.equal( false );
+            done();
+        } );
+
+        it( 'should return the total number of files', function ( done ) {
+            expect( true ).to.equal( false );
+            done();
+        } );
+
+        it( 'should return the total number of rejected files', function ( done ) {
+            expect( true ).to.equal( false );
+            done();
+        } );
+
+        it( 'should return the total number of rejected directories', function ( done ) {
+            expect( true ).to.equal( false );
+            done();
+        } );
+
     } );
 
 } );

@@ -33,18 +33,31 @@ function run () {
     } else if (options.fix) {
 
     } else {
-        // Just do the check
-
+        doCheck(); // Just do the check
     }
 }
 
 function doCheck() {
 
     console.log( '' );
-    console.log( colors.blue( '\tChecking file \"' + options.src + '\" ...' ) );
+    console.log( colors.cyan( 'Checking file \"' + options.src + '\" ...' ) );
     console.log( '' );
 
+    ec.check( options.src, function ( error, checkResult ) {
 
+        if (error) {
+            return console.error( colors.red(error.errMessage || error));
+        } else {
+            if (checkResult) {
+                console.log(colors.cyan.underline('Overview:'));
+                console.log('\t' + checkResult.numFiles + ' files in ' + checkResult.numDirs + ' directories');
+                console.log('\t' + checkResult.rejected.length + ' files might be not accepted by Qlik Sense server.');
+
+            } else {
+             return console.error( colors.red('Error: No result returned.'));
+            }
+        }
+    });
 }
 
 function doFix() {
