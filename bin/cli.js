@@ -40,6 +40,11 @@ function run () {
 
 function doCheck() {
 
+    console.log( '' );
+    console.log( colors.blue( '\tChecking file \"' + options.src + '\" ...' ) );
+    console.log( '' );
+
+
 }
 
 function doFix() {
