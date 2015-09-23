@@ -8,6 +8,15 @@
 
 ## About
 
+ext-check is a NodeJS based command line tool which was primarily developed to solve a degrade in Qlik Sense 2.1.1 which prevents extensions containing specific files from being uploaded to Qlik Sense server.
+
+The following scenarios are supported:
+
+* Check a zip file whether it will likely work in Qlik Sense server or not
+* List all file-types in a zip file
+* List all files for a given file-type in a zip file
+* Fix a zip file and remove all files which are not working in the official Qlik Sense 2.1.1 release
+
 ## Prerequisites
 
 Node.js + NPM installed on your system.
@@ -32,9 +41,9 @@ Run `ext-check` in the command line using one of the following options:
 * **`--list`** (alias `-l`) - List all file-extensions and their usage count in the given .zip-file
 * **`--listdetails`** (alias `-ld`) - List all files where a specific file extension is used
 
-## Examples
+## Usage Examples
 
-### Just check
+**Just check**
 
 Just check the visualization extension, the output in the command line will indicate if there is a problem which needs to be fixed.
 
@@ -42,19 +51,19 @@ Just check the visualization extension, the output in the command line will indi
 ext-check "myExtension.zip"
 ```
 
-### List file extensions used
+**List file extensions used**
 
 ```bash
 ext-check "myExtension.zip" --list
 ```
 
-### List all files for a specific file extension
+**List all files for a specific file extension**
 
 ```bash
 ext-check "myExtension.zip" --listdetails=".json"
 ```
 
-### Check and fix
+**Check and fix**
 
 Checks the extension, fixes potential problems in the source zip-file (create a backup with %filename%.bak before) immediately.
 
@@ -62,19 +71,19 @@ Checks the extension, fixes potential problems in the source zip-file (create a 
 ext-check "myExtension.zip" --fix
 ```
 
-### Check and fix, no backup
+**Check and fix, no backup**
 
 ```bash
 ext-check "myExtension.zip" --fix --backup=false
 ```
 
-### Check using a password protected zip file
+**Check using a password protected zip file**
 
 ```bash
 ext-check "myExtension.zip" --password "verysecurepwd"
 ```
 
-### Get the MIME type for a file extension
+**Get the MIME type for a file extension**
 
 ```bash
 ext-check ".json" --mime
