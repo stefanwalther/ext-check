@@ -1,1 +1,2 @@
-- Remove command-line-args (using commander instead)
+- Consider folders like .git, .idea, etc.
+- 
