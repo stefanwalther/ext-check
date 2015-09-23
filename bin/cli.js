@@ -56,13 +56,13 @@ function doList() {
             console.log( '' );
             console.log( colors.cyan( 'Usage of different file extensions in \"' + options.src + '\":' ) );
             data.forEach( function ( item ) {
-                console.log( '\t' + item.ext + '\t' + item.count + ' times used ' + ((item.supported) ? colors.green( '( OK )' ) : colors.red( ' ( Not working out of the box )' )) );
+                console.log( '\t' + item.ext + '\t' + _.padLeft(item.count, 3, ' ') + ' times used ' + ((item.supported) ? colors.green( '( OK )' ) : colors.red( '( Not working out of the box )' )) );
             } )
         }
 
         console.log('');
         if ( _.where( data, {"supported": false} ).length > 0 ) {
-            console.log(colors.red('There are one or more files which might not work with either patching the Qlik Sense server or removing those files from the extension.'));
+            console.log(colors.red('There are one or more files which might not work without either patching the Qlik Sense server or removing those files from the extension.'));
             console.log('');
             console.log('Use ' + colors.yellow('ext-check <zipFile> --fix') + ' to remove those files from the extension.');
             console.log('(A backup of this file will be created automatically.)');
