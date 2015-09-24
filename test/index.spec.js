@@ -4,8 +4,6 @@ var path = require( 'path' );
 var expect = require( 'chai' ).expect;
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
 var fs = require( 'fs-extra' );
-//var rimraf = require( 'rimraf' );
-//var zipLib = require( 'adm-zip' );
 
 describe( 'ext-check', function () {
 
