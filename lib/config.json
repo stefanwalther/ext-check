@@ -16,7 +16,12 @@
     "rejected": [
         "md",
         "markdown",
-        "eot"
+        "eot",
+        "svg",
+        "ttf",
+        "woff",
+        "otf",
+        "less"
     ],
     "safeToRemoveFolders": [
         ".git",
@@ -25,7 +30,7 @@
         ".DS_store"
     ],
     "safeToRemoveFiles": [
-        ".md",
-        ".markdown"
+        "md",
+        "markdown"
     ]
 }

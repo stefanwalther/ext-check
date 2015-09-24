@@ -19,7 +19,7 @@ The following scenarios are supported:
 
 ## Prerequisites
 
-Node.js + NPM installed on your system.
+[Node.js](https://nodejs.org) + NPM installed on your system.
 
 ## Install
 
@@ -37,7 +37,6 @@ Run `ext-check` in the command line using one of the following options:
 * **`--help`** (alias `-h`) - Show the help
 * **`--fix`** (alias `-f`) - Whether to fix the file or not (defaults to `false`)
 * **`--backup`** (alias `-b`) - Whether to create a backup or not (defaults to `true`)
-* **`--password`** (alias `-p`) - Password for the zip-file (if applicable)
 * **`--list`** (alias `-l`) - List all file-extensions and their usage count in the given .zip-file
 * **`--listdetails`** (alias `-ld`) - List all files where a specific file extension is used
 
@@ -88,6 +87,11 @@ ext-check "myExtension.zip" --password "verysecurepwd"
 ```bash
 ext-check ".json" --mime
 ```
+
+## Known limitations
+
+* Currently the tool is developed especially to validate scenarios around Qlik Sense 2.1.1 (but this might change in the future)
+* Password protected zip files are currently not supported
 
 ## Author
 
