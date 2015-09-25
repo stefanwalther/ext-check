@@ -39,7 +39,7 @@ describe( 'ext-check', function () {
             } );
         } );
 
-        it( 'should return the list of extensions', function ( done ) {
+        it( 'should return the list of file-extensions', function ( done ) {
             ec.list( path.resolve( fixtures.sample ), function ( err, data ) {
                 expect( err ).to.not.exist;
                 expect( data ).to.be.an.array;
