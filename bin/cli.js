@@ -14,6 +14,7 @@ var cli = commandLineArgs( [
     {name: "fix", alias: "f", type: Boolean, defaultValue: false},
     {name: "password", alias: "p", type: Boolean, defaultValue: false},
     {name: "list", alias: "l", type: Boolean, defaultValue: false},
+    {name: "listdir", alias: "ldir", type: Boolean, defaultValue: false},
     {name: "listdetails", alias: "ld", type: String, defaultValue: false},
     {name: "mime", alias: "m", type: Boolean, defaultValue: false},
 
@@ -26,6 +27,8 @@ function run () {
 
     if ( options.list ) {
         doList();
+    } else if ( options.listdir ) {
+        doListDir();
     } else if ( options.mime ) {
         doMime();
     } else if ( options.listdetails ) {
@@ -113,10 +116,10 @@ function doFix () {
 }
 
 function doList () {
-    var list = ec.list( options.src, function ( err, data ) {
+    ec.list( options.src, function ( err, data ) {
 
         if ( err ) {
-            console.error( err.errMessage );
+            console.error( colors.red( err.errMessage || err ) );
         } else {
             console.log( '' );
             console.log( colors.cyan( 'Usage of different file extensions in \"' + options.src + '\":' ) );
@@ -133,6 +136,24 @@ function doList () {
             console.log( '(A backup of this file will be created automatically.)' );
         } else {
             console.log( colors.green( 'Everything looks fine!' ) );
+        }
+
+    } );
+}
+
+function doListDir () {
+    ec.listDir( options.src, function ( err, data ) {
+        if ( err ) {
+            console.error( colors.red( err.errMessage || err ) );
+        } else {
+            console.log('');
+            data.forEach( function ( item ) {
+                console.log('Results for ' + item.fileChecked + ':');
+                item.forEach( function ( fileExt ) {
+                    console.log( '\t' + fileExt.ext + '\t' + _.padLeft( fileExt.count, 3, ' ' ) + ' times used ' + ((!fileExt.rejected) ? colors.green( '( OK )' ) : colors.red( '( Not working out of the box )' )) );
+                });
+                console.log('');
+            })
         }
 
     } );
