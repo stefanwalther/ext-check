@@ -1,2 +1,3 @@
 - Consider folders like .git, .idea, etc.
 - Consider empty files
+- Update package.json to run tests
