@@ -1,3 +1,4 @@
 - Consider folders like .git, .idea, etc.
 - Consider empty files
-- Update package.json to run tests
+- Keywords in package.json
+- Figure out how to test multiple versions of node.js on CodeShip
