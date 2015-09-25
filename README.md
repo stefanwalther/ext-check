@@ -103,6 +103,8 @@ ext-check "myExtension.zip" --password "verysecurepwd"
 ext-check ".json" --mime
 ```
 
+> [![](docs/images/--mime.png)](https://nodejs.org)
+
 ## Known limitations
 
 * Currently the tool is developed especially to validate scenarios around Qlik Sense 2.1.1 (but this might change in the future)
