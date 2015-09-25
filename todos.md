@@ -1,2 +1,2 @@
 - Consider folders like .git, .idea, etc.
-- 
+- Consider empty files
