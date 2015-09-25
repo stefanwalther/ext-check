@@ -3,7 +3,6 @@
 'use strict';
 var commandLineArgs = require( 'command-line-args' );
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
-var path = require( 'path' );
 var colors = require( 'colors' );
 var _ = require( 'lodash' );
 var mime = require( 'mime' );
@@ -163,7 +162,7 @@ function doListDir () {
 function doListDetails () {
 
     try {
-        var matchingFiles = ec.listDetails( options.src, options.listdetails )
+        var matchingFiles = ec.listDetails( options.src, options.listdetails );
 
         if ( matchingFiles.length > 0 ) {
             console.log( colors.cyan( 'File extension \"' + options.listdetails + '\" is used in the following files:' ) );
@@ -180,8 +179,11 @@ function doListDetails () {
 
 }
 
+/**
+ * Return the mime type.
+ */
 function doMime () {
-    console.log( 'Mime type for ' + options.src + ':' );
+    console.log( 'Mime type for \"' + options.src + '\":' );
     console.log( '\t' + colors.yellow( mime.lookup( options.src ) ) );
 }
 
