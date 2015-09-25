@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 var commandLineArgs = require( 'command-line-args' );
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
