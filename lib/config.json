@@ -11,7 +11,9 @@
         "csv",
         "css",
         "gif",
-        "png"
+        "png",
+        "jpg",
+        "jpeg"
     ],
     "rejected": [
         "md",
