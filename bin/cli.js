@@ -5,7 +5,6 @@ var commandLineArgs = require( 'command-line-args' );
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
 var path = require( 'path' );
 var colors = require( 'colors' );
-var symbols = require( 'symbolsjs' );
 var _ = require( 'lodash' );
 var mime = require( 'mime' );
 
