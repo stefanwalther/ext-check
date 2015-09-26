@@ -29,6 +29,21 @@
     "mime": "^1.3.4",
     "zip-local": "^0.1.3"
   },
+  "keywords": [
+    "qlik",
+    "qlik-sense",
+    "sense",
+    "visualizations",
+    "visualization-extensions",
+    "extensions",
+    "check",
+    "qlik-sense-server",
+    "qmc",
+    "import",
+    "check",
+    "fix",
+    "file-extensions"
+  ],
   "files": [
     "bin/cli.js",
     "lib/config.json",
