@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/* global define,require */
 'use strict';
 var commandLineArgs = require( 'command-line-args' );
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
@@ -22,23 +22,6 @@ var cli = commandLineArgs( [
 ] );
 var options = cli.parse();
 var ec = new ExtensionCheck();
-
-function run () {
-
-    if ( options.list ) {
-        doList();
-    } else if ( options.listdir ) {
-        doListDir();
-    } else if ( options.mime ) {
-        doMime();
-    } else if ( options.listdetails ) {
-        doListDetails();
-    } else if ( options.fix ) {
-        doFix();
-    } else {
-        doCheck(); // Default, just do the check
-    }
-}
 
 function doCheck () {
 
@@ -146,14 +129,14 @@ function doListDir () {
         if ( err ) {
             console.error( colors.red( err.errMessage || err ) );
         } else {
-            console.log('');
+            console.log( '' );
             data.forEach( function ( item ) {
-                console.log('Results for ' + item.fileChecked + ':');
+                console.log( 'Results for ' + item.fileChecked + ':' );
                 item.forEach( function ( fileExt ) {
                     console.log( '\t' + fileExt.ext + '\t' + _.padLeft( fileExt.count, 3, ' ' ) + ' times used ' + ((!fileExt.rejected) ? colors.green( '( OK )' ) : colors.red( '( Not working out of the box )' )) );
-                });
-                console.log('');
-            })
+                } );
+                console.log( '' );
+            } )
         }
 
     } );
@@ -161,22 +144,20 @@ function doListDir () {
 
 function doListDetails () {
 
-    try {
-        var matchingFiles = ec.listDetails( options.src, options.listdetails );
-
-        if ( matchingFiles.length > 0 ) {
-            console.log( colors.cyan( 'File extension \"' + options.listdetails + '\" is used in the following files:' ) );
-            matchingFiles.forEach( function ( item ) {
-                console.log( '\t- ' + item );
-            } );
+    ec.listDetails( options.src, options.listdetails, function ( err, matchingFiles ) {
+        if ( err ) {
+            console.error( colors.red( ex.errMessage ) );
         } else {
-            console.log( colors.cyan( 'File extension \"' + options.listdetails + '\" is not used at all in the source file.' ) );
+            if ( matchingFiles.length > 0 ) {
+                console.log( colors.cyan( 'File extension \"' + options.listdetails + '\" is used in the following files:' ) );
+                matchingFiles.forEach( function ( item ) {
+                    console.log( '\t- ' + item );
+                } );
+            } else {
+                console.log( colors.cyan( 'File extension \"' + options.listdetails + '\" is not used at all in the source file.' ) );
+            }
         }
-    }
-    catch ( ex ) {
-        console.error( colors.red( ex.errMessage ) );
-    }
-
+    } );
 }
 
 /**
@@ -185,6 +166,23 @@ function doListDetails () {
 function doMime () {
     console.log( 'Mime type for \"' + options.src + '\":' );
     console.log( '\t' + colors.yellow( mime.lookup( options.src ) ) );
+}
+
+function run () {
+
+    if ( options.list ) {
+        doList();
+    } else if ( options.listdir ) {
+        doListDir();
+    } else if ( options.mime ) {
+        doMime();
+    } else if ( options.listdetails ) {
+        doListDetails();
+    } else if ( options.fix ) {
+        doFix();
+    } else {
+        doCheck(); // Default, just do the check
+    }
 }
 
 run();

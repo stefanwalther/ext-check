@@ -33,8 +33,9 @@ describe( 'ext-check', function () {
 
         it( 'should throw an exception for non .zip files', function ( done ) {
 
-            ec.list( 'c:\\does_not_exist.zip', function ( err, data ) {
+            ec.list( path.resolve( fixtures.existing_not_zip ), function ( err, data ) {
                 expect( err ).to.exist;
+                expect( err.errName ).to.be.equal( 'NOT_A_ZIP_FILE' );
                 done();
             } );
         } );
@@ -49,6 +50,62 @@ describe( 'ext-check', function () {
                 expect( data ).to.deep.include( {"ext": "js", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "json", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "md", "count": 2, "rejected": true} );
+                done();
+            } );
+        } );
+    } );
+
+    describe( 'listDetails', function () {
+
+        it( 'should throw an exception for non .zip files', function ( done ) {
+            ec.listDetails( path.resolve( fixtures.existing_not_zip ), null, function ( err, data ) {
+                expect( err ).to.exist;
+                expect( err.errName ).to.be.equal( 'NOT_A_ZIP_FILE' );
+                done();
+            } );
+        } );
+
+        it( 'should throw an exception if the file doesn\'t exist', function ( done ) {
+            ec.listDetails( 'c:\\does_not_exist.zip', null, function ( err, data ) {
+                expect( err ).to.exist;
+                expect( data ).to.not.exist;
+                expect( err.errName ).to.be.equal( 'FILE_NOT_EXISTS' );
+                done();
+            } );
+        } );
+
+        it( 'should return everything when defining no file extension', function ( done ) {
+            ec.listDetails( path.resolve( fixtures.sample ), null, function ( err, data ) {
+                expect( err ).to.not.exist;
+                expect( data ).to.exist;
+                expect( data ).to.have.length.of( 9 );
+                done();
+            } );
+        } );
+
+        it( 'should filter when defining the file extension', function ( done ) {
+            ec.listDetails( path.resolve( fixtures.sample ), "js", function ( err, data ) {
+                expect( err ).to.not.exist;
+                expect( data ).to.exist;
+                expect( data ).to.have.length.of( 2 );
+                done();
+            } );
+        } );
+
+        it( 'allows file extensions with leading .', function ( done ) {
+            ec.listDetails( path.resolve( fixtures.sample ), ".html", function ( err, data ) {
+                expect( err ).to.not.exist;
+                expect( data ).to.exist;
+                expect( data ).to.have.length.of( 2 );
+                done();
+            } );
+        } );
+
+        it( 'allows file extensions without leading .', function ( done ) {
+            ec.listDetails( path.resolve( fixtures.sample ), "html", function ( err, data ) {
+                expect( err ).to.not.exist;
+                expect( data ).to.exist;
+                expect( data ).to.have.length.of( 2 );
                 done();
             } );
         } );
@@ -70,8 +127,7 @@ describe( 'ext-check', function () {
         //} );
 
         it( 'should throw an exception for non .zip files', function ( done ) {
-            var fileToCheck = path.resolve( fixtures.existing_not_zip );
-            ec.check( fileToCheck, function ( err, checkResult ) {
+            ec.check( path.resolve( fixtures.existing_not_zip ), function ( err, checkResult ) {
                 expect( err ).to.exist;
                 expect( err.errName ).to.be.equal( 'NOT_A_ZIP_FILE' );
                 done();
@@ -194,12 +250,12 @@ describe( 'ext-check', function () {
             ec.listDir( path.resolve( fixtures.listDir ), function ( err, listDirResults ) {
                 expect( err ).to.not.exist;
                 expect( listDirResults ).to.be.an.array;
-                expect( listDirResults ).to.have.length(3);
-                expect( listDirResults[0].fileChecked ).to.include('htm.zip');
-                expect( listDirResults[1].fileChecked ).to.include('md.zip');
-                expect( listDirResults[2].fileChecked ).to.include('yml.zip');
+                expect( listDirResults ).to.have.length( 3 );
+                expect( listDirResults[0].fileChecked ).to.include( 'htm.zip' );
+                expect( listDirResults[1].fileChecked ).to.include( 'md.zip' );
+                expect( listDirResults[2].fileChecked ).to.include( 'yml.zip' );
                 done();
-            });
+            } );
         } );
 
     } );
