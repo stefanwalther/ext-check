@@ -23,7 +23,9 @@
         "ttf",
         "woff",
         "otf",
-        "less"
+        "less",
+        "gitkeep",
+        "gitignore"
     ],
     "safeToRemoveFolders": [
         ".git",

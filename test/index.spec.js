@@ -6,7 +6,7 @@ var ExtensionCheck = require( './../lib/ExtensionCheck' );
 var fs = require( 'fs-extra' );
 var rimraf = require( 'rimraf' );
 var zipper = require( 'zip-local' );
-var mkdir = require('mkdirp');
+var mkdir = require( 'mkdirp' );
 
 var ec = undefined;
 var fixtures = {
@@ -17,20 +17,18 @@ var fixtures = {
     "listDir": './test/fixtures/listDir'
 };
 
-function prepExamples( callback ) {
+function prepExamples ( callback ) {
     ec = new ExtensionCheck();
 
     var srcFiles = './test/fixtures/files/';
     var testZip = './test/.tmp/sample.zip';
-    rimraf( path.resolve( './test/.tmp' ), function () {
-        mkdir('./test/.tmp', function (  ) {
-            zipper.zip( srcFiles , function ( zipped ) {
-                zipped.save( testZip, function (  ) {
-                    callback();
-                });
-            });
-        });
-    });
+    mkdir( './test/.tmp', function () {
+        zipper.zip( srcFiles, function ( zipped ) {
+            zipped.save( testZip, function () {
+                callback();
+            } );
+        } );
+    } );
 }
 
 describe( 'ext-check', function () {
@@ -39,8 +37,13 @@ describe( 'ext-check', function () {
         prepExamples( done );
     } );
 
-    describe( 'list', function () {
+    afterEach( function ( done ) {
+        rimraf( path.resolve( './test/.tmp' ), function () {
+            done();
+        } );
+    } );
 
+    describe( 'list', function () {
 
         it( 'should throw an exception for non existing files', function ( done ) {
             ec.list( 'c:\\does_not_exist.zip', function ( err, data ) {
@@ -63,12 +66,13 @@ describe( 'ext-check', function () {
             ec.list( path.resolve( fixtures.sample ), function ( err, data ) {
                 expect( err ).to.not.exist;
                 expect( data ).to.be.an.array;
-                expect( data.length ).to.be.equal( 5 );
+                expect( data.length ).to.be.equal( 6 );
                 expect( data ).to.deep.include( {"ext": "qext", "count": 1, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "html", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "js", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "json", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "md", "count": 2, "rejected": true} );
+                expect( data ).to.deep.include( {"ext": "gitignore", "count": 1, "rejected": true} );
                 done();
             } );
         } );
@@ -97,7 +101,7 @@ describe( 'ext-check', function () {
             ec.listDetails( path.resolve( fixtures.sample ), null, function ( err, data ) {
                 expect( err ).to.not.exist;
                 expect( data ).to.exist;
-                expect( data ).to.have.length.of( 9 );
+                expect( data ).to.have.length.of( 10 );
                 done();
             } );
         } );
@@ -153,7 +157,7 @@ describe( 'ext-check', function () {
             ec.check( path.resolve( fixtures.sample ), function ( err, checkResult ) {
                 expect( err ).to.not.exist;
                 expect( checkResult.numFiles ).to.be.a.number;
-                expect( checkResult.numFiles ).to.be.equal( 9 );
+                expect( checkResult.numFiles ).to.be.equal( 10 );
                 done();
             } );
         } );
@@ -164,7 +168,7 @@ describe( 'ext-check', function () {
                 expect( checkResult.checkedFile ).to.be.equal( fileToCheck );
                 expect( err ).to.not.exist;
                 expect( checkResult.rejectedFiles ).to.be.a.number;
-                expect( checkResult.rejectedFiles.length ).to.be.equal( 2 );
+                expect( checkResult.rejectedFiles.length ).to.be.equal( 3 );
                 done();
             } );
         } );
@@ -266,4 +270,19 @@ describe( 'ext-check', function () {
         } );
 
     } );
+
+    describe( 'helpers', function () {
+
+        it( 'getFileExtension should return the correct file extension', function (  ) {
+            expect( ec.__onlytest__.getFileExtension('file.html') ).to.be.equal('html');
+            expect( ec.__onlytest__.getFileExtension('.gitignore') ).to.be.equal('gitignore');
+            expect( ec.__onlytest__.getFileExtension('.gitkeep') ).to.be.equal('gitkeep');
+            expect( ec.__onlytest__.getFileExtension('c:\\test\\file.html') ).to.be.equal('html');
+            expect( ec.__onlytest__.getFileExtension('./test/file.html') ).to.be.equal('html');
+            expect( ec.__onlytest__.getFileExtension('./test/file.version.html') ).to.be.equal('html');
+            expect( ec.__onlytest__.getFileExtension('./test/file.tar.gz') ).to.be.equal('gz');
+        } );
+
+    } );
+
 } );
