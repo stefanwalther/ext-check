@@ -4,24 +4,43 @@ var path = require( 'path' );
 var expect = require( 'chai' ).expect;
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
 var fs = require( 'fs-extra' );
+var rimraf = require( 'rimraf' );
+var zipper = require( 'zip-local' );
+var mkdir = require('mkdirp');
+
+var ec = undefined;
+var fixtures = {
+    "sampleSrc": './test/fixtures/extensions/sample.zip',
+    "sample": './test/.tmp/sample.zip',
+    "non_existing_sample": './test/.tmp/not_existing_sample.zip',
+    "existing_not_zip": './test/fixtures/extensions/sample.7z',
+    "listDir": './test/fixtures/listDir'
+};
+
+function prepExamples( callback ) {
+    ec = new ExtensionCheck();
+
+    var srcFiles = './test/fixtures/files/';
+    var testZip = './test/.tmp/sample.zip';
+    rimraf( path.resolve( './test/.tmp' ), function () {
+        mkdir('./test/.tmp', function (  ) {
+            zipper.zip( srcFiles , function ( zipped ) {
+                zipped.save( testZip, function (  ) {
+                    callback();
+                });
+            });
+        });
+    });
+}
 
 describe( 'ext-check', function () {
 
-    var ec = undefined;
-    var fixtures = {
-        "sampleSrc": './test/fixtures/extensions/sample.zip',
-        "sample": './test/.tmp/sample.zip',
-        "non_existing_sample": './test/.tmp/not_existing_sample.zip',
-        "existing_not_zip": './test/fixtures/extensions/sample.7z',
-        "listDir": './test/fixtures/listDir'
-    };
     beforeEach( function ( done ) {
-        ec = new ExtensionCheck();
-        fs.copySync( path.resolve( fixtures.sampleSrc ), path.resolve( fixtures.sample ) );
-        done();
+        prepExamples( done );
     } );
 
     describe( 'list', function () {
+
 
         it( 'should throw an exception for non existing files', function ( done ) {
             ec.list( 'c:\\does_not_exist.zip', function ( err, data ) {
@@ -113,19 +132,6 @@ describe( 'ext-check', function () {
 
     describe( 'check', function () {
 
-
-        // Todo: Automate the tests and fixtures in a better way
-        //beforeEach( function ( callback) {
-        //
-        //    rimraf(path.resolve('./test/.tmp'), function (  ) {
-        //        var testZip = './test/.tmp/sample.zip';
-        //        var zip = new zipLib();
-        //        zip.addLocalFolder(path.resolve('./test/fixtures/files'), path.resolve(testZip));
-        //        zip.writeZip(path.resolve('./test/.tmp/sample.zip'));
-        //        callback();
-        //    });
-        //} );
-
         it( 'should throw an exception for non .zip files', function ( done ) {
             ec.check( path.resolve( fixtures.existing_not_zip ), function ( err, checkResult ) {
                 expect( err ).to.exist;
@@ -145,7 +151,7 @@ describe( 'ext-check', function () {
 
         it( 'should return the total number of files', function ( done ) {
             ec.check( path.resolve( fixtures.sample ), function ( err, checkResult ) {
-                expect( err ).to.be.undefined;
+                expect( err ).to.not.exist;
                 expect( checkResult.numFiles ).to.be.a.number;
                 expect( checkResult.numFiles ).to.be.equal( 9 );
                 done();
@@ -156,7 +162,7 @@ describe( 'ext-check', function () {
             var fileToCheck = path.resolve( fixtures.sample );
             ec.check( fileToCheck, function ( err, checkResult ) {
                 expect( checkResult.checkedFile ).to.be.equal( fileToCheck );
-                expect( err ).to.be.undefined;
+                expect( err ).to.not.exist;
                 expect( checkResult.rejectedFiles ).to.be.a.number;
                 expect( checkResult.rejectedFiles.length ).to.be.equal( 2 );
                 done();
@@ -167,7 +173,7 @@ describe( 'ext-check', function () {
             var fileToCheck = path.resolve( fixtures.sample );
             ec.check( fileToCheck, function ( err, checkResult ) {
                 expect( checkResult.checkedFile ).to.be.equal( fileToCheck );
-                expect( err ).to.be.undefined;
+                expect( err ).to.not.exist;
                 expect( checkResult.rejectedFolders ).to.be.a.number;
                 expect( checkResult.rejectedFolders.length ).to.be.equal( 0 );
                 expect( checkResult.rejectedFolders ).to.be.a.number;
@@ -181,8 +187,8 @@ describe( 'ext-check', function () {
 
         it.skip( 'creates a backup', function ( done ) {
 
-            ec.fix( path.resolve( fixtures.sample ), true, function ( err, fixResult ) {
-                expect( err ).to.be.undefined;
+            ec.fix( path.resolve( fixtures.sample ), true, function ( err, fixResults ) {
+                expect( err ).to.not.exist;
                 expect( path.exists( fixResults.backupFile ) ).to.be.true;
                 done();
             } );
@@ -210,6 +216,7 @@ describe( 'ext-check', function () {
         it( 'returns an error if the dir is not existing', function ( done ) {
             ec.getZipsInDir( 'c:\\non_existing_folder', function ( err, zipFiles ) {
                 expect( err ).to.exist;
+                expect( zipFiles ).to.not.exist;
                 expect( err.errName ).to.be.equal( 'DIR_NOT_EXISTS' );
                 done();
             } );
