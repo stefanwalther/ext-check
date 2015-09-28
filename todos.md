@@ -4,3 +4,5 @@
 - Figure out how to test multiple versions of node.js on CodeShip
 - https://david-dm.org/BadgeLabs/mocha-eslint#info=dependencies&view=table
 - Add file without file-extension (LICENSE)
+- Make command line help working
+- Ensure and document that the lib can also be used without CLI
