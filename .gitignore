@@ -11,6 +11,8 @@ web.*.config
 todos.md
 
 /test/fixtures/extensions/qWidget*.zip
+!/test/fixtures/files/.git
+!/test/fixutres/files/.idea
 
 
 # =========================
@@ -97,6 +99,8 @@ App_Data/*.ldf
 # Webstorm
 # =========================
 .idea/
+
+
 
 # =========================
 # Windows detritus

@@ -66,7 +66,8 @@ describe( 'ext-check', function () {
             ec.list( path.resolve( fixtures.sample ), function ( err, data ) {
                 expect( err ).to.not.exist;
                 expect( data ).to.be.an.array;
-                expect( data.length ).to.be.equal( 6 );
+                expect( data.length ).to.be.equal( 9 );
+                expect( data ).to.deep.include( {"ext": "", "count": 1, "rejected": true} );
                 expect( data ).to.deep.include( {"ext": "qext", "count": 1, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "html", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "js", "count": 2, "rejected": false} );
@@ -97,11 +98,11 @@ describe( 'ext-check', function () {
             } );
         } );
 
-        it( 'should return everything when defining no file extension', function ( done ) {
+        it( 'should return everything when defining no file extension, files in .folders should be ignored', function ( done ) {
             ec.listDetails( path.resolve( fixtures.sample ), null, function ( err, data ) {
                 expect( err ).to.not.exist;
                 expect( data ).to.exist;
-                expect( data ).to.have.length.of( 10 );
+                expect( data ).to.have.length.of( 11 );
                 done();
             } );
         } );
@@ -157,7 +158,7 @@ describe( 'ext-check', function () {
             ec.check( path.resolve( fixtures.sample ), function ( err, checkResult ) {
                 expect( err ).to.not.exist;
                 expect( checkResult.numFiles ).to.be.a.number;
-                expect( checkResult.numFiles ).to.be.equal( 10 );
+                expect( checkResult.numFiles ).to.be.equal( 14 );
                 done();
             } );
         } );
@@ -189,11 +190,11 @@ describe( 'ext-check', function () {
 
     describe( 'fix', function () {
 
-        it.skip( 'creates a backup', function ( done ) {
+        it( 'creates a backup', function ( done ) {
 
             ec.fix( path.resolve( fixtures.sample ), true, function ( err, fixResults ) {
                 expect( err ).to.not.exist;
-                expect( path.exists( fixResults.backupFile ) ).to.be.true;
+                expect( fs.existsSync( fixResults.backupFile ) ).to.be.true;
                 done();
             } );
         } );
@@ -281,6 +282,9 @@ describe( 'ext-check', function () {
             expect( ec.__onlytest__.getFileExtension('./test/file.html') ).to.be.equal('html');
             expect( ec.__onlytest__.getFileExtension('./test/file.version.html') ).to.be.equal('html');
             expect( ec.__onlytest__.getFileExtension('./test/file.tar.gz') ).to.be.equal('gz');
+            expect( ec.__onlytest__.getFileExtension('./test/LICENSE') ).to.be.equal('');
+            expect( ec.__onlytest__.getFileExtension('LICENSE') ).to.be.equal('');
+
         } );
 
     } );
