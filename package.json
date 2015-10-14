@@ -46,6 +46,9 @@
     "fix",
     "file-extensions"
   ],
+  "engines": {
+    "node": ">=0.12.0"
+  },
   "files": [
     "bin/cli.js",
     "lib/config.json",
