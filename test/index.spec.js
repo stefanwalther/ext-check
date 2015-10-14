@@ -1,7 +1,10 @@
 'use strict';
 
 var path = require( 'path' );
-var expect = require( 'chai' ).expect;
+var chai = require('chai');
+var expect = chai.expect;
+var chaiSubset = require('chai-subset');
+chai.use(chaiSubset);
 var ExtensionCheck = require( './../lib/ExtensionCheck' );
 var fs = require( 'fs-extra' );
 var rimraf = require( 'rimraf' );
@@ -67,7 +70,7 @@ describe( 'ext-check', function () {
                 expect( err ).to.not.exist;
                 expect( data ).to.be.an.array;
                 expect( data.length ).to.be.equal( 9 );
-                expect( data ).to.deep.include( {"ext": "", "count": 1, "rejected": true} );
+                expect( data ).to.deep.include( {"ext": "<blank>", "count": 1, "rejected": true} );
                 expect( data ).to.deep.include( {"ext": "qext", "count": 1, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "html", "count": 2, "rejected": false} );
                 expect( data ).to.deep.include( {"ext": "js", "count": 2, "rejected": false} );
@@ -169,7 +172,10 @@ describe( 'ext-check', function () {
                 expect( checkResult.checkedFile ).to.be.equal( fileToCheck );
                 expect( err ).to.not.exist;
                 expect( checkResult.rejectedFiles ).to.be.a.number;
-                expect( checkResult.rejectedFiles.length ).to.be.equal( 3 );
+                expect( checkResult.rejectedFiles ).to.have.deep.property( '[0].entryName', '.gitignore' );
+                expect( checkResult.rejectedFiles ).to.have.deep.property( '[1].entryName', 'LICENSE' );
+                expect( checkResult.rejectedFiles ).to.have.deep.property( '[2].entryName', 'markdown.md' );
+                expect( checkResult.rejectedFiles ).to.have.deep.property( '[3].entryName', 'sub/markdown.md' );
                 done();
             } );
         } );
@@ -180,8 +186,7 @@ describe( 'ext-check', function () {
                 expect( checkResult.checkedFile ).to.be.equal( fileToCheck );
                 expect( err ).to.not.exist;
                 expect( checkResult.rejectedFolders ).to.be.a.number;
-                expect( checkResult.rejectedFolders.length ).to.be.equal( 0 );
-                expect( checkResult.rejectedFolders ).to.be.a.number;
+                expect( checkResult.rejectedFolders.length ).to.be.equal( 2 );
                 done();
             } );
         } );
@@ -197,21 +202,44 @@ describe( 'ext-check', function () {
                 expect( fs.existsSync( fixResults.backupFile ) ).to.be.true;
                 done();
             } );
+
         } );
 
-        it.skip( 'removes unsupported files', function ( done ) {
-            expect( true ).to.equal( false );
-            done();
+        it( 'keeps supported files', function ( done ) {
+            var destPath = fixtures.sample;
+            ec.fix( path.resolve( destPath ), true, function ( err, fixResults ) {
+                expect( err ).to.not.exist;
+                expect( fs.existsSync( destPath ) ).to.be.true;
+                zipper.unzip( destPath, function ( unzipped ) {
+                    expect( unzipped ).to.have.property( 'content' );
+                    expect( unzipped.content.files ).to.have.property('html.html');
+                    expect( unzipped.content.files ).to.have.property('javascript.js');
+                    expect( unzipped.content.files ).to.have.property('json.json');
+                    expect( unzipped.content.files ).to.have.property('sample.qext');
+                    done();
+                } );
+            } );
         } );
 
-        it.skip( 'keeps files which are supported', function ( done ) {
-            expect( true ).to.equal( false );
-            done();
-        } );
-
-        it.skip( 'removes unsupported directories', function ( done ) {
-            expect( true ).to.equal( false );
-            done();
+        it( 'keeps supported files', function ( done ) {
+            var destPath = fixtures.sample;
+            ec.fix( path.resolve( destPath ), true, function ( err, fixResults ) {
+                expect( err ).to.not.exist;
+                expect( fs.existsSync( destPath ) ).to.be.true;
+                zipper.unzip( destPath, function ( unzipped ) {
+                    expect( unzipped ).to.have.property( 'content' );
+                    //expect( unzipped.content.files ).not.to.have.property('.build/');
+                    expect( unzipped.content.files ).not.to.have.property('.build/file1.txt');
+                    expect( unzipped.content.files ).not.to.have.property('.build/subfolder/file2.txt');
+                    expect( unzipped.content.files ).not.to.have.property('.gitignore');
+                    expect( unzipped.content.files ).not.to.have.property('LICENSE');
+                    expect( unzipped.content.files ).not.to.have.property('markdown.md');
+                    expect( unzipped.content.files ).not.to.have.property('sub/markdown.md');
+                    //expect( unzipped.content.files ).not.to.have.property('.idea/');
+                    expect( unzipped.content.files ).not.to.have.property('.idea/settings.xml');
+                    done();
+                } );
+            } );
         } );
 
     } );
@@ -274,16 +302,16 @@ describe( 'ext-check', function () {
 
     describe( 'helpers', function () {
 
-        it( 'getFileExtension should return the correct file extension', function (  ) {
-            expect( ec.__onlytest__.getFileExtension('file.html') ).to.be.equal('html');
-            expect( ec.__onlytest__.getFileExtension('.gitignore') ).to.be.equal('gitignore');
-            expect( ec.__onlytest__.getFileExtension('.gitkeep') ).to.be.equal('gitkeep');
-            expect( ec.__onlytest__.getFileExtension('c:\\test\\file.html') ).to.be.equal('html');
-            expect( ec.__onlytest__.getFileExtension('./test/file.html') ).to.be.equal('html');
-            expect( ec.__onlytest__.getFileExtension('./test/file.version.html') ).to.be.equal('html');
-            expect( ec.__onlytest__.getFileExtension('./test/file.tar.gz') ).to.be.equal('gz');
-            expect( ec.__onlytest__.getFileExtension('./test/LICENSE') ).to.be.equal('');
-            expect( ec.__onlytest__.getFileExtension('LICENSE') ).to.be.equal('');
+        it( 'getFileExtension should return the correct file extension', function () {
+            expect( ec.__onlytest__.getFileExtension( 'file.html' ) ).to.be.equal( 'html' );
+            expect( ec.__onlytest__.getFileExtension( '.gitignore' ) ).to.be.equal( 'gitignore' );
+            expect( ec.__onlytest__.getFileExtension( '.gitkeep' ) ).to.be.equal( 'gitkeep' );
+            expect( ec.__onlytest__.getFileExtension( 'c:\\test\\file.html' ) ).to.be.equal( 'html' );
+            expect( ec.__onlytest__.getFileExtension( './test/file.html' ) ).to.be.equal( 'html' );
+            expect( ec.__onlytest__.getFileExtension( './test/file.version.html' ) ).to.be.equal( 'html' );
+            expect( ec.__onlytest__.getFileExtension( './test/file.tar.gz' ) ).to.be.equal( 'gz' );
+            expect( ec.__onlytest__.getFileExtension( './test/LICENSE' ) ).to.be.equal( '' );
+            expect( ec.__onlytest__.getFileExtension( 'LICENSE' ) ).to.be.equal( '' );
 
         } );
 

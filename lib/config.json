@@ -991,7 +991,8 @@
         ".git",
         ".idea",
         ".build",
-        ".DS_store"
+        ".DS_store",
+        ".meteor"
     ],
     "safeToRemoveFiles": [
         "md",

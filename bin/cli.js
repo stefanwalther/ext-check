@@ -106,8 +106,9 @@ function doList () {
         } else {
             console.log( '' );
             console.log( colors.cyan( 'Usage of different file extensions in \"' + options.src + '\":' ) );
+            data = _.sortByOrder( data, ['count'], ['desc'], _.values);
             data.forEach( function ( item ) {
-                console.log( '\t' + item.ext + '\t' + _.padLeft( item.count, 3, ' ' ) + ' times used ' + ((!item.rejected) ? colors.green( '( OK )' ) : colors.red( '( Not working out of the box )' )) );
+                console.log( '\t' + _.trunc(item.ext,7) + '\t\t' + _.padLeft( item.count, 3, ' ' ) + ' times used ' + ((!item.rejected) ? colors.green( '( OK )' ) : colors.red( '( Not working out of the box )' )) );
             } )
         }
 
