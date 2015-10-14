@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/stefanwalther/ext-check",
   "dependencies": {
-    "adm-zip": "^0.4.7",
     "async": "^1.4.2",
     "colors": "^1.1.2",
     "command-line-args": "^1.0.0",

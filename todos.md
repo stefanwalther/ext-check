@@ -1,6 +1,6 @@
+- Add list of supported Mime types in Qlik Sense 2.1.1
 - Consider folders like .git, .idea, etc.
-- Consider empty files
-- Keywords in package.json
+- Consider and check empty files
 - Figure out how to test multiple versions of node.js on CodeShip
 - https://david-dm.org/BadgeLabs/mocha-eslint#info=dependencies&view=table
 - Add file without file-extension (LICENSE)
