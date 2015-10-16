@@ -992,10 +992,14 @@
         ".idea",
         ".build",
         ".DS_store",
-        ".meteor"
+        ".meteor",
+        "__MACOSX"
     ],
     "safeToRemoveFiles": [
         "md",
-        "markdown"
+        "markdown",
+        "gitignore",
+        "gitkeep",
+        "gitattributes"
     ]
 }
