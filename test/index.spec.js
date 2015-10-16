@@ -187,6 +187,8 @@ describe( 'ext-check', function () {
                 expect( err ).to.not.exist;
                 expect( checkResult.rejectedFolders ).to.be.a.number;
                 expect( checkResult.rejectedFolders.length ).to.be.equal( 2 );
+                expect( checkResult.rejectedFolders[0] ).to.have.property('safeToRemove', true);
+                expect( checkResult.rejectedFolders[1] ).to.have.property('safeToRemove', true);
                 done();
             } );
         } );
@@ -310,9 +312,17 @@ describe( 'ext-check', function () {
             expect( ec.__onlytest__.getFileExtension( './test/file.html' ) ).to.be.equal( 'html' );
             expect( ec.__onlytest__.getFileExtension( './test/file.version.html' ) ).to.be.equal( 'html' );
             expect( ec.__onlytest__.getFileExtension( './test/file.tar.gz' ) ).to.be.equal( 'gz' );
-            expect( ec.__onlytest__.getFileExtension( './test/LICENSE' ) ).to.be.equal( '' );
-            expect( ec.__onlytest__.getFileExtension( 'LICENSE' ) ).to.be.equal( '' );
+            expect( ec.__onlytest__.getFileExtension( './test/LICENSE' ) ).to.be.equal( '<blank>' );
+            expect( ec.__onlytest__.getFileExtension( 'LICENSE' ) ).to.be.equal( '<blank>' );
 
+        } );
+
+        it( 'getDirectFolder should return the correct folder name', function ( ) {
+            expect( ec.__onlytest__.getDirectFolder('sub/.build/' )).to.be.equal('.build');
+            expect( ec.__onlytest__.getDirectFolder('./sub/.build/' )).to.be.equal('.build');
+            expect( ec.__onlytest__.getDirectFolder('./sub/.build' )).to.be.equal('sub');
+            expect( ec.__onlytest__.getDirectFolder('./sub/.gitignore' )).to.be.equal('sub');
+            expect( ec.__onlytest__.getDirectFolder('./sub/test/' )).to.be.equal('test');
         } );
 
     } );

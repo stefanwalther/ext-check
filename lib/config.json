@@ -989,17 +989,19 @@
     ],
     "safeToRemoveFolders": [
         ".git",
+        ".svn",
         ".idea",
         ".build",
-        ".DS_store",
+        ".ds_store",
         ".meteor",
-        "__MACOSX"
+        "__macosx"
     ],
-    "safeToRemoveFiles": [
+    "safeToRemoveFileExtensions": [
         "md",
         "markdown",
         "gitignore",
         "gitkeep",
-        "gitattributes"
+        "gitattributes",
+        "<blank>"
     ]
 }

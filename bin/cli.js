@@ -48,7 +48,7 @@ function doCheck () {
                     if ( checkResult.rejectedFolders.length > 0 ) {
                         console.log( colors.white( '\tFolders potentially rejected by QMC import:' ) );
                         checkResult.rejectedFolders.forEach( function ( folderRejected ) {
-                            console.log( colors.grey( '\t- ' + folderRejected.entryName ) + ((!folderRejected.safeToRemove) ? colors.red( ' (double check)' ) : colors.green( ' (probably safe to remove)' )) );
+                            console.log( colors.grey( '\t- ' + folderRejected.entryName ) + ((!folderRejected.safeToRemove) ? colors.red( ' (double check, if folder can be removed)' ) : colors.green( ' (probably safe to remove)' )) );
                         } );
                     }
 
@@ -56,7 +56,7 @@ function doCheck () {
                     if ( checkResult.rejectedFiles.length > 0 ) {
                         console.log( colors.white( '\tFiles potentially rejected by QMC import:' ) );
                         checkResult.rejectedFiles.forEach( function ( itemRejected ) {
-                            console.log( colors.grey( '\t- ' + itemRejected.entryName ) + ((!itemRejected.safeToRemove) ? colors.red( ' (double check)' ) : colors.green( ' (probably safe to remove)' )) );
+                            console.log( colors.grey( '\t- ' + itemRejected.entryName ) + ((!itemRejected.safeToRemove) ? colors.red( ' (double check, if file can be removed)' ) : colors.green( ' (probably safe to remove)' )) );
                         } );
                     }
 
