@@ -161,7 +161,7 @@ describe( 'ext-check', function () {
             ec.check( path.resolve( fixtures.sample ), function ( err, checkResult ) {
                 expect( err ).to.not.exist;
                 expect( checkResult.numFiles ).to.be.a.number;
-                expect( checkResult.numFiles ).to.be.equal( 14 );
+                expect( checkResult.numFiles ).to.be.equal( 11 );
                 done();
             } );
         } );
@@ -323,6 +323,14 @@ describe( 'ext-check', function () {
             expect( ec.__onlytest__.getDirectFolder('./sub/.build' )).to.be.equal('sub');
             expect( ec.__onlytest__.getDirectFolder('./sub/.gitignore' )).to.be.equal('sub');
             expect( ec.__onlytest__.getDirectFolder('./sub/test/' )).to.be.equal('test');
+            expect( ec.__onlytest__.getDirectFolder('.gitignore' )).to.be.equal('');
+            expect( ec.__onlytest__.getDirectFolder('./sub/.gitignore' )).to.be.equal('sub');
+
+        } );
+
+        it( 'getTopFolders returns all top folders', function (  ) {
+            expect( ec.__onlytest__.getTopFolders('sub/.build/' )).to.be.deep.equal(['sub', '.build']);
+            expect( ec.__onlytest__.getTopFolders('.build/sub/' )).to.be.deep.equal(['.build', 'sub']);
         } );
 
     } );
