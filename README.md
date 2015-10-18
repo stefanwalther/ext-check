@@ -95,7 +95,7 @@ ext-check "myExtension.zip" --fix --backup=false
 ext-check ".json" --mime
 ```
 
-> ![](docs/images/--mime.png)
+> ![](docs/images/ext-check__mime.png)
 
 ## Known limitations
 
