@@ -56,7 +56,7 @@ function doCheck () {
                     if ( checkResult.rejectedFiles.length > 0 ) {
                         console.log( colors.white( '\tFiles potentially rejected by QMC import:' ) );
                         checkResult.rejectedFiles.forEach( function ( itemRejected ) {
-                            console.log( colors.grey( '\t- ' + itemRejected.entryName ) + ((!itemRejected.safeToRemove) ? colors.red( ' (double check, if file can be removed)' ) : colors.green( ' (probably safe to remove)' )) );
+                            console.log( colors.grey( '\t- ' + itemRejected.entryName ) + ((!itemRejected.safeToRemove) ? colors.red( ' (double check, if file can be removed without breaking the extension)' ) : colors.green( ' (probably safe to remove)' )) );
                         } );
                     }
 
@@ -113,7 +113,7 @@ function doList () {
         }
 
         console.log( '' );
-        if ( _.where( data, {"supported": false} ).length > 0 ) {
+        if ( _.where( data, {"rejected": false} ).length > 0 ) {
             console.log( colors.red( 'There are one or more files which might not work without either patching the Qlik Sense server or removing those files from the extension.' ) );
             console.log( '' );
             console.log( 'Use ' + colors.yellow( 'ext-check <zipFile> --fix' ) + ' to remove those files from the extension.' );
