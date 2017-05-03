@@ -1,5 +1,7 @@
 # ext-check
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/stefanwalther/ext-check.svg)](https://greenkeeper.io/)
+
 > Check and fix extensions before importing into Qlik Sense Server.
 
 [![](http://serve.mod.bz/branch/)](https://github.com/stefanwalther/ext-check)
